@@ -1,60 +1,150 @@
-import React from 'react'
-import {  StyleSheet, Image } from 'react-native'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { HomeScreen } from './ui/screens/HomeScreen'
-import { ReadScreen } from './ui/screens/ReadScreen'
-import { NavigationContainer } from '@react-navigation/native'
-import closeBook from './assets/images/bookClose.png'
-import closeBookPink from './assets/images/bookClosePink.png'
-import bookOpen from './assets/images/bookOpen.png'
-import bookOpenPink from './assets/images/bookOpenPink.png'
+import {StyleSheet, Image} from 'react-native';
+import {HomeScreen} from './ui/screens/HomeScreen';
+import {ReadScreen} from './ui/screens/ReadScreen';
+import {BuyScreen} from './ui/screens/BuyScreen';
+import {RulesScreen} from './ui/screens/RulesScreen';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import settingsActive from './assets/images/noun-settings-8005307NEW2.png';
+import homeActive from './assets/images/noun-home-7624989NEW.png';
+import cross from './assets/images/noun-cross-8131930NEW.png';
+import {SettingsScreen} from './ui/screens/SettingsScreen';
+import {COLORS} from './assets/colors';
+import {ImgButton} from './ui/components/ImgButton';
 
-const Tab = createBottomTabNavigator()
+const Stack = createStackNavigator();
 
-export const Navigate = () => {
+export const Navigate = props => {
   return (
-<NavigationContainer>
-    <Tab.Navigator
-    screenOptions={{
-      headerShown: false,
-      tabBarStyle: { position: 'absolute', top:0 },
-    }}
-  >
-    <Tab.Screen
-      name="Home"
-      component={HomeScreen}
-      options={{
-        tabBarLabel: '',
-        tabBarIcon: ({ focused }) => (
-          <Image
-          style={styles.img}
-          source={focused ? closeBookPink : closeBook}
-        />
-        ),
-      }}
-    />
-    <Tab.Screen
-      name="Read"
-      component={ReadScreen}
-      options={{
-        tabBarLabel: '',
-        tabBarIcon: ({ focused }) => (
-          <Image
-          style={styles.img}
-          source={focused ? bookOpenPink : bookOpen}
-        />
-        ),
-      }}
-    />
-  </Tab.Navigator>
-</NavigationContainer>
+    <NavigationContainer>
+      <RootNavigator />
+    </NavigationContainer>
   );
 };
 
+function RootNavigator(props) {
+  const bgStartColor = COLORS.background;
+  const titleColor = COLORS.titleColor;
+
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: true,
+        headerStyle: {backgroundColor: bgStartColor},
+        headerShadowVisible: false,
+      }}>
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={({navigation, route}) => ({
+          title: 'HOME'.toUpperCase(),
+          headerTitleStyle: {
+            color: bgStartColor,
+          },
+        })}
+      />
+      <Stack.Screen
+        name="Read"
+        component={ReadScreen}
+        options={({navigation, route}) => ({
+          title: 'ЧТЕНИЕ'.toUpperCase(),
+          headerTitleStyle: {
+            color: bgStartColor,
+          },
+          headerLeft: () => (
+            <ImgButton
+              onPress={() => {
+                navigation.navigate('Home');
+              }}
+              img={homeActive}
+              width={40}
+              height={40}
+            />
+          ),
+          // headerRight: () => (
+          //   <ImgButton
+          //     onPress={() => {
+          //       navigation.navigate('Settings');
+          //     }}
+          //     img={settingsActive}
+          //     width={40}
+          //     height={40}
+          //   />
+          // ),
+        })}
+      />
+      <Stack.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={({navigation, route}) => ({
+          title: 'НАСТРОЙКИ'.toUpperCase(),
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            color: titleColor,
+          },
+          headerLeft: () => (
+            <ImgButton
+              onPress={() => {
+                navigation.navigate('Home');
+              }}
+              img={cross}
+              width={40}
+              height={40}
+            />
+          ),
+        })}
+      />
+      <Stack.Screen
+        name="Rules"
+        component={RulesScreen}
+        options={({navigation, route}) => ({
+          title: 'ПРАВИЛА'.toUpperCase(),
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            color: titleColor,
+          },
+          headerLeft: () => (
+            <ImgButton
+              onPress={() => {
+                navigation.navigate('Settings');
+              }}
+              img={cross}
+              width={40}
+              height={40}
+            />
+          ),
+        })}
+      />
+
+      <Stack.Screen
+        name="Buy"
+        component={BuyScreen}
+        options={({navigation, route}) => ({
+          title: 'ПОКУПКИ'.toUpperCase(),
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            color: titleColor,
+          },
+          headerLeft: () => (
+            <ImgButton
+              onPress={() => {
+                navigation.navigate('Settings');
+              }}
+              img={cross}
+              width={40}
+              height={40}
+            />
+          ),
+        })}
+      />
+    </Stack.Navigator>
+  );
+}
+
 const styles = StyleSheet.create({
   img: {
-  width:40,
-  height:40,
-  marginTop:15
+    width: 40,
+    height: 40,
+    marginTop: 15,
   },
 });
