@@ -24,8 +24,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    width: Dimensions.get('window').width * 0.42,
-    height: Dimensions.get('window').height * 0.1,
+    width: Dimensions.get('window').width * 0.2,
+    // height: Dimensions.get('window').height * 0.1,
     borderWidth: 0,
   },
 });

@@ -1,24 +1,28 @@
 import React, {useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
-  SafeAreaView,
-  ScrollView,
   StyleSheet,
-  Text,
   View,
+  Text,
   Dimensions,
+  SafeAreaView,
+  Image,
+  ScrollView,
 } from 'react-native';
 import {Frame} from '../components/Frame';
-import {COLORS} from '../../assets/colors';
-import {useFocusEffect} from '@react-navigation/native';
+import row from '../../assets/images/rowBlue.png';
+import left from '../../assets/images/left.png';
+import right from '../../assets/images/right.png';
+import bottom2 from '../../assets/images/bottom2.png';
 import {shuffle} from '../../helpers';
-
-import arrNext from '../../assets/images/noun-arrow-2940644NEW.png';
-import arrBack from '../../assets/images/noun-arrow-2940642NEW.png';
+import {ArrowButton} from '../components/ArrowButton';
+import {useFocusEffect} from '@react-navigation/native';
+import {COLORS} from '../../assets/colors';
 import {ImgButton} from '../components/ImgButton';
 
 const Sound = require('react-native-sound');
 Sound.setCategory('Playback');
+
 const loose = new Sound('loose.wav', Sound.MAIN_BUNDLE, error => {
   if (error) {
     console.log('failed to load the sound', error);
@@ -172,12 +176,17 @@ export const ReadScreen = ({navigation}) => {
   const onPressBackButton = () => {
     navigation.goBack();
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
         contentContainerStyle={styles.contentScroll}
         style={styles.scrollView}>
-        <Text style={styles.title}>{currentWord}</Text>
+        <View style={styles.titleBlock}>
+          <Text style={styles.title}>{currentWord}</Text>
+        </View>
+
+        <Image style={styles.img} source={row} />
         <View style={styles.framesBlock}>
           <View style={styles.row}>
             <Frame
@@ -204,18 +213,19 @@ export const ReadScreen = ({navigation}) => {
             />
           </View>
         </View>
+        <Image style={styles.img} source={bottom2} />
         <View style={styles.btnsBlock}>
           <ImgButton
             onPress={onPressBackButton}
-            img={arrBack}
-            width={100}
-            height={70}
+            img={left}
+            width={Dimensions.get('window').width * 0.2}
+            height={Dimensions.get('window').height * 0.1}
           />
           <ImgButton
             onPress={onPressNextArrow}
-            img={arrNext}
-            width={100}
-            height={70}
+            img={right}
+            width={Dimensions.get('window').width * 0.2}
+            height={Dimensions.get('window').height * 0.1}
           />
         </View>
       </ScrollView>
@@ -228,36 +238,44 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.background,
   },
+  contentScroll: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  img: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height * 0.14,
+    zIndex: -1,
+  },
+  titleBlock: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: Dimensions.get('window').height * 0.1,
+  },
+  title: {
+    fontSize: 35,
+    fontFamily: 'Oi-Regular',
+    color: '#d37191',
+  },
+  btnsBlock: {
+    width: Dimensions.get('window').width * 0.7,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    // marginBottom: 10,
+  },
   framesBlock: {
-    height: Dimensions.get('window').height * 0.5,
+    height: Dimensions.get('window').height * 0.42,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 10,
-  },
-  title: {
-    height: Dimensions.get('window').height * 0.17,
-    fontSize: 50,
-    color: COLORS.main,
-    textAlign: 'center',
-    fontWeight: 'bold',
+    backgroundColor: COLORS.blueSky,
   },
   row: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: Dimensions.get('window').width * 0.9,
-  },
-  contentScroll: {
-    paddingBottom: 10,
-    paddingTop: 80,
-    display: 'flex',
-    alignItems: 'center',
-  },
-  btnsBlock: {
-    width: Dimensions.get('window').width * 0.9,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
   },
 });

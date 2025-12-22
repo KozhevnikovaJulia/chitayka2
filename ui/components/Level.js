@@ -1,34 +1,21 @@
-import React from 'react';
 import {
   Image,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
   Dimensions,
 } from 'react-native';
-import starActive from '../../assets/images/starActive.png';
-import starEmpty from '../../assets/images/starEmpty.png';
+
 import {COLORS} from '../../assets/colors';
 import {Shadow} from 'react-native-shadow-2';
 
 export const Level = props => {
-  const {onPressLevel, level, title} = props;
-  const arrLevelNumbers = [1, 2, 3, 4];
+  const {onPressLevel, img, title} = props;
   return (
     <Shadow distance={15}>
       <TouchableOpacity style={styles.container} onPress={onPressLevel}>
         <Text style={styles.text}>{title} </Text>
-        <View style={styles.starsWrapper}>
-          {arrLevelNumbers.map(item => {
-            return (
-              <Image
-                style={styles.img}
-                source={item < level || item === level ? starActive : starEmpty}
-              />
-            );
-          })}
-        </View>
+        <Image style={styles.img} source={img} />
       </TouchableOpacity>
     </Shadow>
   );
@@ -44,7 +31,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   img: {
-    width: 30,
+    width: 45,
     height: 30,
   },
   starsWrapper: {

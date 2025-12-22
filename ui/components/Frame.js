@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     width: Dimensions.get('window').width * 0.4,
-    height: Dimensions.get('window').height * 0.22,
+    height: Dimensions.get('window').height * 0.2,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
